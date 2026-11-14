@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>ひらがなくえすと｜あ行・か行 テストプレイ版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="./style.css">
+  </head>
+
+  <body>
+    <!-- ========================================
+     タイトル画面
+======================================== -->
+
+<div id="title-screen" class="title-screen" style="display: none;">
+
+  <img
+    class="title-logo"
+    src="https://i.postimg.cc/T3rxtrrR/Hiraque-title.png"
+    alt="ひらがなくえすと"
+  >
+
+  <img
+    class="title-main-image"
+    src="https://i.postimg.cc/fRxs8xxM/Hiraque_-_titlemain.png"
+    alt="満月とひらモンたち"
+  >
+
+  <div class="title-buttons">
+
+    <button id="title-start" type="button">
+      ▶ はじめる
+    </button>
+
+    <div class="title-sub-buttons">
+      <button id="title-collection" type="button">
+        ずかん
+      </button>
+
+      <button id="title-settings" type="button">
+        せってい
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ========================================
+     せってい画面
+======================================== -->
+
+<div id="settings-screen" class="settings-screen" hidden>
+
+  <h2>せってい</h2>
+
+  <div class="settings-content">
+
+    <h3>なんいど</h3>
+
+    <label class="settings-difficulty-option">
+      <input
+        type="radio"
+        name="game-difficulty"
+        value="easy"
+        checked
+      >
+      かんたん
+    </label>
+
+    <label class="settings-difficulty-option">
+      <input
+        type="radio"
+        name="game-difficulty"
+        value="hard"
+      >
+      むずかしい
+    </label>
+
+  </div>
+
+  <button id="settings-back" type="button">
+    ← もどる
+  </button>
+
+</div>
+
+<div class="game">
+
+
+  <!-- ========================================
+       モンスターエリア
+  ======================================== -->
+
+  <div class="monster-area">
+　　　
+
+    <div class="monster-frame">
+
+  <img
+    id="monster-image"
+    src="https://i.postimg.cc/Rh3v9yv5/anton-20260904222649.png"
+    alt="モンスター"
+  />
+  <button id="battle-back-map" type="button" aria-label="ちずにもどる">↩️</button>
+
+  <img
+  id="hit-effect"
+  class="hit-effect"
+  src="https://i.postimg.cc/SKQsfffY/wu-ti67-20260916160935.png"
+  alt=""
+/>
+
+</div>
+
+
+    <!-- ========================================
+     モンスター名・読み上げ
+======================================== -->
+
+<div class="monster-name-row">
+
+  <div
+    id="monster-name"
+    class="monster-name"
+  ></div>
+
+  <button
+    id="speak-letter"
+    class="speak-letter"
+    type="button"
+    aria-label="ひらがなをもういちど聞く"
+  >
+    🔊
+  </button>
+
+</div>
+
+
+    <div
+      id="damage-message"
+      class="damage-message"
+    ></div>
+
+
+    <!-- ========================================
+         クエストクリア表示
+
+         普段は hidden。
+         「お」撃破後だけ
+         モンスターの場所に表示。
+    ======================================== -->
+
+    <div
+      id="clear-screen"
+      class="clear-screen hidden"
+    >
+
+      <div class="clear-title">
+        くえすと クリア！ 
+      </div>
+
+      
+<!-- あ行クリア：鍵の獲得演出 -->
+<div id="key-reward" class="key-reward" hidden>
+  <img
+    id="key-reward-image"
+    src="https://i.postimg.cc/5tmHqkBn/8F9D8CAE-2061-4982-AF06-EF521DBA103E.png"
+    alt="ほうせきのかぎ"
+  >
+  <div class="key-reward-message">
+    かぎを てにいれた！
+  </div>
+</div>
+
+
+
+      <div class="clear-buttons">
+
+        <button id="same-quest">
+          もういちど
+        </button>
+
+        <button id="next-quest">
+        ちずにもどる
+        </button>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- ========================================
+       ひらがなを書く場所
+  ======================================== -->
+
+  <div
+    class="write-box"
+    id="write-box"
+  >
+
+    <img
+      id="guide-image"
+      class="guide-image"
+      alt="ひらがなのおてほん"
+    />
+
+
+    <div id="stroke-start-dot"></div>
+
+
+    <canvas id="draw"></canvas>
+
+  </div>
+
+
+  <!-- ========================================
+       メッセージ
+  ======================================== -->
+
+
+<!-- JavaScript用に残す・画面には表示しない -->
+<div
+  id="message"
+  class="message"
+  hidden
+></div>
+
+  
+  <!-- ========================================
+       操作ボタン
+  ======================================== -->
+
+  <div class="buttons">
+
+    <button id="clear" aria-label="かきなおす">
+  かきなおす
+</button>
+
+    <button id="attack" aria-label="こうげき">
+  こうげき
+</button>
+
+  </div>
+
+
+
+
+</div>
+
+
+<!-- ========================================
+     クエスト選択マップ
+======================================== -->
+
+<div id="quest-map-screen" class="quest-map-screen" hidden>
+
+  <!-- 右上の戻るボタン -->
+  <div class="quest-map-toolbar">
+    <button id="quest-map-back" type="button" aria-label="タイトルにもどる">
+  ↩️
+</button>
+  </div>
+
+  <!-- 縦スクロールするマップ -->
+  <div id="quest-map-scroll" class="quest-map-scroll">
+
+    
+<!-- マップ画像とステージボタンを重ねる -->
+<div class="quest-map-content">
+
+  <img
+    id="quest-map-image"
+    src="https://i.postimg.cc/zBmdKvkd/CE067C51-9474-46D5-9252-71D037E11ADC.jpg"
+    alt="ひらがなくえすとの冒険マップ"
+  />
+
+  <!-- あ行：港村 -->
+  <button
+    id="quest-stage-a"
+    class="quest-stage-button"
+    type="button"
+  >
+    あ
+  </button>
+
+  <!-- か行：流氷の海 -->
+  <button
+    id="quest-stage-ka"
+    class="quest-stage-button"
+    type="button"
+    disabled
+  >
+    か
+  </button>
+
+  
+<!-- か行の金の錠前 -->
+<img
+  id="quest-lock-ka"
+  class="quest-stage-lock"
+
+src="https://i.postimg.cc/ZqC7psDH/ACAD491C-BD45-4C06-AAF0-3AEF8D384F29.png"
+
+  alt="かぎが かかっている"
+/>
+
+
+</div>
+
+
+  </div>
+
+</div>
+
+
+<!-- ========================================
+     通常クリア専用：図鑑登録画面
+======================================== -->
+
+<div id="collection-clear-screen" hidden>
+
+  <div class="collection-clear-content">
+
+    <div class="collection-clear-title">
+      くえすと くりあ！
+    </div>
+
+    <div class="collection-clear-heading">
+      ずかんに とうろく
+    </div>
+
+    <!-- 新しく獲得した画像の一覧 -->
+    <div id="collection-new-images"
+         class="collection-new-images">
+    </div>
+
+    <!-- 獲得画像がない場合のメッセージ -->
+    <div id="collection-empty-message" hidden>
+      しんはっけん　なし
+    </div>
+
+    <!-- 登録演出後に表示するボタン -->
+    <div id="collection-clear-buttons"
+         class="collection-clear-buttons"
+         hidden>
+
+      <button id="collection-retry"
+              type="button">
+        もういちど
+      </button>
+
+      <button id="collection-back-map"
+              type="button">
+        ちずヘ↩️
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ========================================
+     初回クリア専用：鍵獲得画面
+======================================== -->
+
+<div id="key-get-screen" hidden>
+
+  <div class="key-get-title">
+    くえすと クリア！
+  </div>
+
+　
+<div class="key-get-effect">
+
+  <span class="key-sparkle sparkle-1">✦</span>
+  <span class="key-sparkle sparkle-2">✦</span>
+  <span class="key-sparkle sparkle-3">✦</span>
+  <span class="key-sparkle sparkle-4">✦</span>
+
+  <img
+    src="https://i.postimg.cc/5tmHqkBn/8F9D8CAE-2061-4982-AF06-EF521DBA103E.png"
+    alt="ほうせきのかぎ"
+  >
+
+</div>
+
+
+  <div class="key-get-message">
+    かぎを てにいれた！
+  </div>
+
+  <button id="key-get-back">
+    ← マップにもどる
+  </button>
+
+</div>
+
+<!-- ========================================
+     ひらモンずかん：モンスター詳細画面
+======================================== -->
+
+<div id="monster-detail-screen" hidden>
+
+  <div class="monster-detail-page">
+
+    <!-- 戻るボタン -->
+    <button id="monster-detail-back" type="button">
+      ↩️
+    </button>
+
+    
+<!-- モンスターとステージ背景 -->
+<div class="monster-detail-picture">
+
+  <!-- 前のひらがな -->
+  <button
+    id="monster-detail-prev"
+    class="monster-detail-arrow prev"
+    type="button"
+    aria-label="まえの ひらがな"
+  >◀</button>
+
+  <img
+    id="monster-detail-monster"
+    alt="モンスター"
+  >
+
+  <!-- 次のひらがな -->
+  <button
+    id="monster-detail-next"
+    class="monster-detail-arrow next"
+    type="button"
+    aria-label="つぎの ひらがな"
+  >▶</button>
+
+</div>
+
+
+    <!-- モンスター名 -->
+    <div id="monster-detail-name">
+      モンスター名
+    </div>
+
+    <!-- 画像切り替えボタン -->
+    <div class="monster-detail-buttons">
+
+      <button type="button" data-image-type="normal">
+        つうじょう
+      </button>
+
+      <button type="button" data-image-type="small">
+        ひっと
+      </button>
+
+      <button type="button" data-image-type="large">
+        だいだめーじ
+      </button>
+
+      <button type="button" data-image-type="critical">
+        くりてぃかる
+      </button>
+
+    </div>
+
+　　    <!-- ひらがな練習：画像ボタン -->
+<button
+  id="monster-detail-practice"
+  type="button"
+  aria-label="このもじを れんしゅう"
+>
+  <img
+    src="https://i.postimg.cc/4yHtGNCR/wu-ti100-20261026113224.png"
+    alt="このもじを れんしゅう"
+  >
+</button>
+    
+    <!-- モンスターの秘密 -->
+<section class="monster-detail-secret">
+
+  <div id="monster-detail-secret-title">
+    モンスター名 の ひみつ
+  </div>
+
+  <!-- 基本説明 -->
+  <div id="monster-detail-description" class="locked">
+    ？？？
+  </div>
+
+  <!-- 追加説明 -->
+  <div id="monster-detail-extra" class="locked">
+    ？？？
+  </div>
+
+</section>
+
+  </div>
+
+</div>
+
+<!-- ========================================
+     ひらモンずかん：ひらがな一覧画面
+======================================== -->
+
+<div id="monster-book-list-screen" hidden>
+  <div class="monster-book-list-page">
+
+    <button id="monster-book-close" type="button">
+      ↩️
+    </button>
+
+    <h2>ひらモンずかん</h2>
+    <p>もじを タッチしてね！</p>
+
+    <div id="monster-book-letter-grid"></div>
+
+  </div>
+</div>
+
+    <script src="./script.js"></script>
+  </body>
+
+</html>

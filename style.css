@@ -1,0 +1,2377 @@
+@import url('https://fonts.googleapis.com/css2?family=Klee+One:wght@400&display=swap');
+
+/* ========================================
+   全体
+======================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-height: 100%;
+
+  background: #fffdf5;
+
+  color: #2c2723;
+
+  font-family:
+  "DotGothic16",
+  sans-serif;
+}
+
+
+body {
+  display: flex;
+  justify-content: center;
+
+  background-color: #10253e;
+
+  touch-action: manipulation;
+}
+
+
+/* ========================================
+   ゲーム全体
+======================================== */
+
+.game {
+  width: 100%;
+  max-width: 430px;
+
+  margin: 0 auto;
+
+  padding:
+    14px
+    14px
+    28px;
+
+  text-align: center;
+}
+
+
+/* ========================================
+   タイトル
+======================================== */
+
+h1 {
+  margin:
+    0
+    0
+    4px;
+
+  font-size: 27px;
+  font-weight: 800;
+
+  line-height: 1.2;
+}
+
+
+/* ========================================
+   説明
+======================================== */
+
+.instruction {
+  margin-bottom: 6px;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  line-height: 1.4;
+}
+
+
+/* ========================================
+   モンスターエリア
+======================================== */
+
+.monster-area {
+  position: relative;
+
+  width: 100%;
+
+  min-height: 265px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+/* ========================================
+   モンスター画像枠
+======================================== */
+
+.monster-frame {
+  position: relative;
+  
+  width: 100%;
+  height: 215px;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  overflow: visible;
+}
+
+
+/* ========================================
+   モンスター画像
+======================================== */
+
+#monster-image {
+  display: block;
+
+  max-width: 100%;
+  max-height: 210px;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+
+  transform-origin: center center;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.35s ease;
+}
+
+
+/* ========================================
+   モンスター名・読み上げ
+======================================== */
+
+.monster-name-row {
+  min-height: 35px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+/* ========================================
+   読み上げボタン
+======================================== */
+
+.speak-letter {
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 2px solid #d6c9a5;
+  border-radius: 50%;
+
+  background: #fff3c4;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+
+.speak-letter:active {
+  transform: scale(0.92);
+}
+
+
+/* ========================================
+   モンスター名
+======================================== */
+
+.monster-name {
+  min-height: 35px;
+
+  margin-top: 0;
+
+  font-family: "DotGothic16", sans-serif;
+  font-size: 25px;
+  font-weight: 400;
+
+  line-height: 1.2;
+
+  paint-order: stroke fill;
+  -webkit-text-stroke: 3px #fffdf5;
+}
+
+
+/*
+  JS側で最初の文字を
+  span等にしている場合にも使える
+*/
+
+.monster-name .name-first {
+  color: #e8453c;
+  font-family: "Klee One", serif;
+  font-weight: 400;
+  font-size: 36px;
+}
+
+/* ========================================
+   ダメージ表示
+======================================== */
+
+.damage-message {
+  min-height: 27px;
+
+  margin-top: 3px;
+
+  font-size: 19px;
+  font-weight: bold;
+
+  line-height: 1.3;
+}
+
+
+/* ========================================
+   クリア表示
+======================================== */
+
+.clear-screen {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 20px;
+
+  text-align: center;
+
+  background: #fffdf5;
+
+  z-index: 10;
+}
+
+
+/* hidden が付いている間は
+   完全に非表示
+*/
+
+.clear-screen.hidden {
+  display: none;
+}
+
+/* ========================================
+   クリアタイトル
+======================================== */
+
+.clear-title {
+  font-size: 31px;
+  font-weight: 400;
+
+  line-height: 1.4;
+
+  letter-spacing: 2px;
+}
+
+/* ========================================
+   クリアボタン
+======================================== */
+
+.clear-buttons {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+}
+
+
+.clear-buttons button {
+  flex: 1;
+
+  max-width: 175px;
+
+  padding:
+    13px
+    10px;
+
+  border: 2px solid #d6c9a5;
+  border-radius: 15px;
+
+  background: #fff3c4;
+
+  color: #2c2723;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  font-family: inherit;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+
+/* ========================================
+   書字スペース
+======================================== */
+
+.write-box {
+  position: relative;
+
+  width: min(80vw, 360px);
+  aspect-ratio: 1 / 1;
+
+  margin:
+    8px
+    auto
+    0;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border:
+    3px
+    solid
+    #514943;
+
+  border-radius: 14px;
+
+  touch-action: none;
+}
+
+
+/* ========================================
+   お手本画像
+======================================== */
+
+.guide-image {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  opacity: 0.20;
+
+  pointer-events: none;
+
+  user-select: none;
+}
+
+
+/* ========================================
+   書き始めの赤い点
+======================================== */
+
+#stroke-start-dot {
+  position: absolute;
+
+  width: 16px;
+  height: 16px;
+
+  border-radius: 50%;
+
+  background: #ef4444;
+
+  transform:
+    translate(
+      -50%,
+      -50%
+    );
+
+  z-index: 4;
+
+  pointer-events: none;
+
+  display: none;
+}
+
+
+/* ========================================
+   Canvas
+======================================== */
+
+#draw {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 3;
+
+  touch-action: none;
+}
+
+
+/* ========================================
+   メッセージ
+======================================== */
+
+.message {
+  min-height: 30px;
+
+  margin-top: 9px;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  line-height: 1.4;
+}
+
+
+/* ========================================
+   通常ボタン
+======================================== */
+
+.buttons {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  margin-top: 8px;
+}
+
+
+.buttons button {
+  padding:
+    12px
+    18px;
+
+  border: none;
+  border-radius: 14px;
+
+  font-size: 17px;
+  font-weight: bold;
+
+  font-family: inherit;
+
+  cursor: pointer;
+}
+
+
+#clear {
+  width: 160px;
+  height: 64px;
+  min-width: 0;
+  min-height: 0;
+  max-width: calc((100vw - 48px) / 2);
+  padding: 0;
+  margin: 0 24px 0 0;
+  background: transparent url("https://i.postimg.cc/SxsGwtMM/4EE3C798-AA35-4142-8022-CD61FCF2FE27.png") center / contain no-repeat;
+  border: none;
+  border-radius: 0;
+  font-size: 0;
+  color: transparent;
+}
+
+
+#attack {
+  width: 160px;
+  height: 64px;
+  min-width: 0;
+  min-height: 0;
+  max-width: calc((100vw - 48px) / 2);
+  padding: 0;
+  margin: 0;
+  background: transparent url("https://i.postimg.cc/3xRZPbvG/FA8FFB29-FAEA-4499-B264-8DE73D222056.png") center / contain no-repeat;
+  border: none;
+  border-radius: 0;
+  font-size: 0;
+  color: transparent;
+}
+
+
+/* ========================================
+   ボタン無効時
+======================================== */
+
+button:disabled {
+  opacity: 0.45;
+
+  cursor: default;
+}
+
+
+/* ========================================
+   小ダメージ用ヒットエフェクト
+======================================== */
+
+.hit-effect {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 240px;
+  height: 240px;
+
+  object-fit: contain;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.3);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 999;
+}
+
+
+/* ========================================
+   小ダメージ発生
+======================================== */
+
+.hit-effect.show-small {
+  animation: smallHitEffect 0.45s ease-out;
+}
+
+
+@keyframes smallHitEffect {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.3);
+  }
+
+  15% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.15);
+  }
+
+  65% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.9);
+  }
+}
+
+/* ========================================
+   モンスター攻撃演出
+======================================== */
+
+#monster-image.hit-flash {
+  animation:
+    hitFlash
+    0.34s
+    ease;
+}
+
+
+@keyframes hitFlash {
+
+  0% {
+    opacity: 1;
+
+    transform:
+      translateX(0)
+      scale(1);
+  }
+
+
+  20% {
+    transform:
+      translateX(-8px)
+      scale(1.03);
+  }
+
+
+  40% {
+    opacity: 0.45;
+
+    transform:
+      translateX(8px)
+      scale(1.03);
+  }
+
+
+  60% {
+    opacity: 1;
+
+    transform:
+      translateX(-5px)
+      scale(1.02);
+  }
+
+
+  80% {
+    transform:
+      translateX(4px)
+      scale(1.01);
+  }
+
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateX(0)
+      scale(1);
+  }
+
+}
+
+
+/* ========================================
+   通常撃破演出
+======================================== */
+
+#monster-image.defeat-normal {
+  animation:
+    defeatNormal
+    1.5s
+    ease
+    forwards;
+}
+
+
+@keyframes defeatNormal {
+
+  0% {
+    opacity: 1;
+
+    transform:
+      scale(1);
+  }
+
+
+  65% {
+    opacity: 1;
+
+    transform:
+      scale(1);
+  }
+
+
+  100% {
+    opacity: 0;
+
+    transform:
+      scale(0.94);
+  }
+
+}
+
+
+/* ========================================
+   クリティカル撃破演出
+======================================== */
+
+#monster-image.defeat-critical {
+  animation:
+    defeatCritical
+    2.2s
+    ease
+    forwards;
+}
+
+
+@keyframes defeatCritical {
+
+  0% {
+    opacity: 1;
+
+    transform:
+      scale(1)
+      rotate(0deg);
+  }
+
+
+  55% {
+    opacity: 1;
+
+    transform:
+      scale(1.12)
+      rotate(0deg);
+  }
+
+
+  100% {
+    opacity: 0;
+
+    transform:
+      scale(0.3)
+      rotate(360deg);
+  }
+
+}
+
+
+/* ========================================
+   小さい画面向け
+======================================== */
+
+@media (
+  max-width: 380px
+) {
+
+  h1 {
+    font-size: 24px;
+  }
+
+
+  .monster-frame {
+    height: 200px;
+  }
+
+
+  #monster-image {
+    max-height: 195px;
+  }
+
+
+  .monster-area {
+    min-height: 250px;
+  }
+
+
+  .clear-title {
+    font-size: 26px;
+  }
+
+
+  .clear-buttons button {
+    font-size: 15px;
+
+    padding:
+      12px
+      8px;
+  }
+
+}
+
+
+/* ========================================
+   タイトル画面
+======================================== */
+
+.title-screen {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 18px 16px 24px;
+
+  background: #10253e;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: space;
+  gap: 12px;
+
+  text-align: center;
+  font-family: "DotGothic16", sans-serif;
+}
+
+/* 巻物ロゴ */
+.title-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 110px;
+  object-fit: contain;
+}
+
+/* 満月とひらモン */
+.title-main-image {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* ボタン全体 */
+.title-buttons {
+  width: 100%;
+  max-width: 360px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 羊皮紙風ドットボタン */
+.title-buttons button {
+  width: 100%;
+  min-height: 54px;
+  padding: 10px 8px;
+
+  background: #f2dda9;
+  color: #392716;
+
+  border: 4px solid #78502e;
+  border-radius: 3px;
+  box-shadow: 0 4px 0 #49301e;
+
+  font-family: "DotGothic16", sans-serif;
+  font-size: 19px;
+  font-weight: bold;
+
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* はじめるボタン */
+#title-start {
+  min-height: 64px;
+  font-size: 23px;
+}
+
+/* 図鑑・設定 */
+.title-sub-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.title-sub-buttons button {
+  flex: 1;
+  min-width: 0;
+  background: #e9d3a6;
+}
+
+/* 押したときの演出 */
+.title-buttons button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #49301e;
+}
+
+/* 高さが小さい端末向け */
+@media (max-height: 650px) {
+  .title-screen {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .title-logo {
+    max-height: 75px;
+  }
+
+  .title-main-image {
+    max-height: 38dvh;
+  }
+
+  .title-buttons {
+    gap: 8px;
+  }
+
+  .title-buttons button {
+    min-height: 46px;
+    font-size: 17px;
+  }
+
+  #title-start {
+    min-height: 54px;
+    font-size: 21px;
+  }
+}
+
+
+/* ========================================
+   タイトル画面 A案：全画面背景テスト
+======================================== */
+
+.title-screen {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 20px 16px 30px;
+  justify-content: space-between;
+  overflow: hidden;
+
+  background-color: #10253e;
+  
+background-image:
+  url("https://i.postimg.cc/76vB0hNW/07D2E14C-D702-489F-AEF9-0DAF3128DC1E.png");
+
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* 巻物ロゴを最前面に */
+.title-logo {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-height: 120px;
+  flex-shrink: 0;
+}
+
+/* 元のメイン画像は背景に移したため非表示 */
+.title-main-image {
+  display: none;
+}
+
+/* ボタンを画面下部に重ねる */
+.title-buttons {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 360px;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+
+/* ========================================
+   タイトル画面：左右の余白を濃紺に
+======================================== */
+
+body:has(#title-screen:not([style*="display: none"])) {
+  background-color: #10253e;
+}
+
+
+/* ========================================
+   クエスト選択マップ画面
+======================================== */
+
+.quest-map-screen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  background: #10243d;
+  z-index: 100;
+  overflow: hidden;
+}
+
+/* 非表示中は必ず隠す */
+.quest-map-screen[hidden] {
+  display: none !important;
+}
+
+/* 右上の戻るボタン */
+.quest-map-toolbar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+}
+
+#quest-map-back {
+  font-family: "DotGothic16", sans-serif;
+  font-size: 20px;
+  color: #49301c;
+  background: rgba(0, 0, 0, 0.1);
+  border: 3px solid #8c6539;
+  border-radius: 6px;
+  width: 42px;
+  height: 42px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* 縦スクロール領域 */
+.quest-map-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* マップ背景画像 */
+#quest-map-image {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  margin: 0;
+}
+
+
+/* ========================================
+   冒険マップのステージボタン
+======================================== */
+
+/* マップ画像を位置の基準にする */
+.quest-map-content {
+  position: relative;
+  width: 100%;
+}
+
+/* ステージボタン共通 */
+.quest-stage-button {
+  position: absolute;
+  transform: translate(-50%, -50%);
+
+  width: 12%;
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 3px solid #a67a36;
+  border-radius: 50%;
+
+  background: #fff176;
+  color: #56371d;
+
+  font-family: "DotGothic16", sans-serif;
+  font-size: clamp(20px, 7vw, 34px);
+  font-weight: bold;
+
+  box-shadow: 0 3px 6px #0006;
+
+  cursor: pointer;
+  touch-action: manipulation;
+  z-index: 2;
+}
+
+/* あ行：港村 */
+#quest-stage-a {
+  left: 25.5%;
+  top: 85%;
+}
+
+/* か行：流氷の海 */
+#quest-stage-ka {
+  left: 68.5%;
+  top: 85%;
+}
+
+/* 未解放ステージ */
+.quest-stage-button:disabled {
+  background: #777777;
+  border-color: #cccccc;
+  color: #eeeeee;
+  cursor: default;
+}
+
+
+/* ========================================
+   クエストマップ：金の錠前
+======================================== */
+
+.quest-stage-lock {
+  position: absolute;
+
+  /* かボタンの中心から少し右上へ */
+  left: 72%;
+  top: 83.5%;
+
+  transform: translate(-50%, -50%);
+
+  /* 錠前を小さく */
+  width: 8%;
+  height: auto;
+
+  z-index: 3;
+  pointer-events: none;
+}
+
+
+/* ========================================
+   戦闘画面の背景色
+======================================== */
+
+.game {
+  background-color: #fffdf5;
+}
+
+
+/* ========================================
+   あ行クリア：宝石の鍵の獲得演出
+======================================== */
+
+.key-reward {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px auto;
+}
+
+/* hidden属性がある間は非表示 */
+.key-reward[hidden] {
+  display: none !important;
+}
+
+/* 宝石の鍵 */
+.key-reward img {
+  display: block;
+  width: 90px;
+  max-width: 28vw;
+  height: auto;
+
+  filter: drop-shadow(0 0 8px #ffe680);
+
+  animation: key-appear 0.8s ease-out both;
+}
+
+/* 獲得メッセージ */
+.key-reward-message {
+  font-family: "DotGothic16", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #8b5a20;
+  text-align: center;
+
+  animation: key-message-appear 0.6s ease-out 0.5s both;
+}
+
+/* 鍵がキラッと現れる */
+@keyframes key-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.3) rotate(-15deg);
+    filter: brightness(2) drop-shadow(0 0 18px gold);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.15) rotate(5deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+/* メッセージが少し遅れて現れる */
+@keyframes key-message-appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ========================================
+   初回クリア専用：鍵獲得画面
+======================================== */
+
+#key-get-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  width: 100%;
+  height: 100dvh;
+  box-sizing: border-box;
+
+  background: #10253e;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  padding: 30px 20px;
+  overflow-y: auto;
+
+  font-family: "DotGothic16", sans-serif;
+  text-align: center;
+}
+
+/* hidden属性を確実に優先 */
+#key-get-screen[hidden] {
+  display: none !important;
+}
+
+/* クリアタイトル */
+.key-get-title {
+  color: #ffe5a0;
+  font-size: clamp(26px, 7vw, 38px);
+  font-weight: bold;
+
+  text-shadow: 0 0 12px rgba(255, 215, 90, 0.5);
+}
+
+/* 鍵の表示エリア */
+.key-get-effect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 240px;
+}
+
+
+/* 宝石の鍵 */
+.key-get-effect img {
+  width: auto;
+  height: min(32dvh, 220px);
+  max-width: 65vw;
+  object-fit: contain;
+
+  animation:
+    key-get-appear 1.5s ease-out both,
+    key-get-sparkle 2s ease-in-out 1.5s infinite;
+}
+
+/* 第1段階：光らずに回転して登場 */
+@keyframes key-get-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.2) rotate(-25deg);
+  }
+
+  65% {
+    opacity: 1;
+    transform: scale(1.2) rotate(32deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(25deg);
+  }
+}
+
+/* 鍵が停止した後、金色に輝く */
+@keyframes key-get-sparkle {
+  0%, 100% {
+    filter: brightness(1)
+      drop-shadow(0 0 0 transparent);
+  }
+
+  30% {
+    filter: brightness(1.25)
+      drop-shadow(0 0 12px #ffe680)
+      drop-shadow(0 0 20px #ffd700);
+  }
+
+  60% {
+    filter: brightness(1.1)
+      drop-shadow(0 0 8px #fff5b0);
+  }
+}
+
+
+/* マップにもどるボタン */
+#key-get-back {
+  width: min(85%, 320px);
+  min-height: 64px;
+
+  border: 3px solid #c49b4d;
+  border-radius: 16px;
+
+  background: #fff0b9;
+  color: #49331e;
+
+  font-family: "DotGothic16", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+
+/* ========================================
+   鍵獲得画面：金色のキラキラ演出
+======================================== */
+
+/* キラキラの配置基準 */
+.key-get-effect {
+  position: relative;
+  isolation: isolate;
+}
+
+/* 四方向に尖ったキラキラ */
+.key-sparkle {
+  position: absolute;
+  z-index: 2;
+
+  color: #ffe16b;
+  font-size: 30px;
+  line-height: 1;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  text-shadow:
+    0 0 6px #fff4b0,
+    0 0 12px #ffd700;
+
+  animation:
+    key-sparkle-twinkle 2.4s ease-in-out
+    infinite;
+}
+
+
+/* 十字の光：鍵のすぐ近くに配置 */
+
+.sparkle-1 {
+  top: 16%;
+  left: 38%;
+  animation-delay: 1.5s;
+}
+
+.sparkle-2 {
+  top: 30%;
+  right: 34%;
+  font-size: 23px;
+  animation-delay: 2.1s;
+}
+
+.sparkle-3 {
+  bottom: 28%;
+  left: 39%;
+  font-size: 22px;
+  animation-delay: 2.7s;
+}
+
+.sparkle-4 {
+  bottom: 16%;
+  right: 38%;
+  font-size: 28px;
+  animation-delay: 3.3s;
+}
+
+
+/* 出現・拡大・消失 */
+@keyframes key-sparkle-twinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(0deg);
+  }
+
+  35% {
+    opacity: 1;
+    transform: scale(1.2) rotate(20deg);
+  }
+
+  65% {
+    opacity: 0.8;
+    transform: scale(0.9) rotate(35deg);
+  }
+
+  85% {
+    opacity: 0;
+    transform: scale(0.3) rotate(45deg);
+  }
+}
+
+
+/* 鍵本体：回転して登場、停止後は明滅しない */
+.key-get-effect img {
+  animation: key-get-appear 1.5s ease-out both;
+  filter: none;
+}
+
+
+/* ========================================
+   か行：錠前が外れるアニメーション
+======================================== */
+
+/* 解錠時だけアニメーションを再生 */
+#quest-lock-ka.lock-unlocking {
+  pointer-events: none;
+
+  animation: quest-lock-unlock 1.2s ease-in both;
+}
+
+@keyframes quest-lock-unlock {
+
+  /* 最初は元の位置 */
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+
+  /* 少し揺れる */
+  20% {
+    opacity: 1;
+    transform: translate(-4px, 0) rotate(-8deg);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translate(4px, 0) rotate(8deg);
+  }
+
+  /* 錠前が浮き上がる */
+  65% {
+    opacity: 1;
+    transform: translate(0, -18px) scale(1.15);
+  }
+
+  /* 上に飛んで消える */
+  100% {
+    opacity: 0;
+    transform: translate(0, -55px) scale(0.5);
+  }
+}
+
+
+/* ========================================
+   通常クリア専用：図鑑登録画面
+======================================== */
+
+#collection-clear-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  background: #fffaf0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow-y: auto;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+/* hidden属性を確実に反映 */
+#collection-clear-screen[hidden],
+#collection-clear-buttons[hidden],
+#collection-empty-message[hidden] {
+  display: none !important;
+}
+
+/* 画面全体の内容 */
+.collection-clear-content {
+  width: 100%;
+  max-width: 430px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+
+  margin: auto;
+  text-align: center;
+  font-family: "DotGothic16", sans-serif;
+  color: #2c2723;
+}
+
+/* クリアタイトル */
+.collection-clear-title {
+  font-size: clamp(26px, 7vw, 36px);
+  font-weight: bold;
+}
+
+/* 図鑑登録メッセージ */
+.collection-clear-heading {
+  font-size: clamp(18px, 5vw, 24px);
+  color: #986b25;
+}
+
+/* 獲得画像の一覧 */
+.collection-new-images {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 12px;
+
+  max-height: 48dvh;
+  overflow-y: auto;
+
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* 今後JSで追加する画像カード */
+.collection-image-card {
+  background: #fff2cf;
+  border: 3px solid #d5b775;
+  border-radius: 14px;
+
+  padding: 10px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  animation:
+    collection-card-appear 0.5s ease-out both;
+}
+
+.collection-image-card img {
+  width: 100%;
+  height: 115px;
+  object-fit: contain;
+}
+
+.collection-image-card-name {
+  font-size: 15px;
+}
+
+.collection-image-card-type {
+  font-size: 13px;
+  color: #806444;
+}
+
+/* 画像が登場する演出 */
+@keyframes collection-card-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 新しい画像がなかった場合 */
+#collection-empty-message {
+  font-size: 18px;
+  padding: 30px 10px;
+}
+
+/* 操作ボタン */
+.collection-clear-buttons {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+}
+
+.collection-clear-buttons button {
+  flex: 1;
+  min-width: 0;
+
+  padding: 15px 6px;
+  border-radius: 14px;
+
+  background: #ffedac;
+  border: 3px solid #c5a45e;
+
+  color: #2c2723;
+  font-family: "DotGothic16", sans-serif;
+  font-size: clamp(14px, 4vw, 19px);
+
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+
+/* ========================================
+   か行の錠前：揺れ2倍→静止→解錠
+======================================== */
+
+#quest-lock-ka.lock-unlocking {
+  transform-origin: 50% 25%;
+  animation: ka-lock-release 3.3s ease-in-out forwards;
+}
+
+@keyframes ka-lock-release {
+
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+
+  11% {
+    transform: rotate(-12deg);
+  }
+
+  22% {
+    transform: rotate(12deg);
+  }
+
+  33% {
+    transform: rotate(-9deg);
+  }
+
+  44% {
+    transform: rotate(9deg);
+  }
+
+  /* 1.8秒：揺れ終了 */
+  54.55% {
+    transform: rotate(0deg) scale(1);
+    filter: brightness(1);
+  }
+
+  /* 2.4秒：静止終了 */
+  72.73% {
+    transform: rotate(0deg) scale(1);
+    filter: brightness(1);
+    opacity: 1;
+  }
+
+  /* キラッと発光 */
+  82% {
+    transform: scale(1.12);
+    opacity: 1;
+    filter:
+      brightness(2.2)
+      drop-shadow(0 0 12px #fff4a0)
+      drop-shadow(0 0 18px #ffe066);
+  }
+
+  /* 錠前が外れる */
+  100% {
+    transform:
+      translateY(-65px)
+      rotate(25deg)
+      scale(0.6);
+
+    opacity: 0;
+    filter: brightness(1);
+  }
+}
+
+
+/* ========================================
+   戦闘画面：下部メッセージ欄を非表示
+======================================== */
+
+#message {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#key-get-back { display: none !important; }
+
+.monster-area {
+  background-position: center top !important;
+  background-size: 100% auto !important;
+}
+
+/* ========================================
+   ひらモンずかん：モンスター詳細画面
+======================================== */
+
+/* 詳細画面全体 */
+#monster-detail-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+
+  overflow-y: auto;
+  background: #c69c69;
+
+  font-family: "DotGothic16", sans-serif;
+}
+
+/* hidden属性を確実に反映 */
+#monster-detail-screen[hidden] {
+  display: none !important;
+}
+
+/* 図鑑の紙 */
+.monster-detail-page {
+  position: relative;
+
+  width: min(100%, 600px);
+  min-height: 100dvh;
+
+  margin: 0 auto;
+  padding: 55px 5% 80px;
+
+  background: #ebe0ce;
+
+  border-left: 14px solid #c69c69;
+  border-right: 14px solid #c69c69;
+
+  color: #211b17;
+}
+
+/* 戻るボタン */
+#monster-detail-back {
+  display: block;
+  margin: 0 0 18px auto;
+
+  padding: 8px 12px;
+
+  background: #fffdf5;
+  border: 2px solid #92734e;
+  border-radius: 6px;
+
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ステージ背景とモンスター */
+.monster-detail-picture {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  background-color: #ebe0ce;
+  background-size: 90% auto !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: none;
+}
+
+/* モンスター画像 */
+#monster-detail-monster {
+  display: block;
+
+  width: 75%;
+  height: 90%;
+
+  object-fit: contain;
+}
+
+/* モンスター名 */
+#monster-detail-name {
+  margin: 10px 0 26px;
+
+  font-size: clamp(28px, 7vw, 42px);
+  font-weight: bold;
+
+  text-align: center;
+  line-height: 1.3;
+}
+
+
+/* ========================================
+   ずかん：画像左右のページ移動矢印
+======================================== */
+
+/* 矢印の配置基準 */
+.monster-detail-picture {
+  position: relative;
+}
+
+/* 左右共通 */
+.monster-detail-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 54px;
+  padding: 0;
+
+  border: none;
+  border-radius: 10px;
+
+  background: rgba(255, 244, 213, 0.9);
+  color: #2c2723;
+
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 1;
+
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* 左 */
+.monster-detail-arrow.prev {
+  left: 5px;
+}
+
+/* 右 */
+.monster-detail-arrow.next {
+  right: 5px;
+}
+
+/* 押したとき */
+.monster-detail-arrow:active:not(:disabled) {
+  background: #ffe29a;
+}
+
+/* 最初・最後のページ */
+.monster-detail-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+
+/* ========================================
+   ずかん：モンスター名の頭文字
+======================================== */
+
+#monster-detail-name .book-name-first {
+  color: #e53935;
+  font-size: 1.2em;
+}
+
+#monster-detail-name .book-name-rest {
+  font-size: 0.75em;
+}
+
+/* 画像切り替えボタン */
+.monster-detail-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 8px;
+  margin-bottom: 34px;
+}
+
+.monster-detail-buttons button {
+  min-width: 0;
+  min-height: 54px;
+
+  padding: 8px 3px;
+
+  background: #fff;
+  color: #211b17;
+
+  border: 2px solid transparent;
+  border-radius: 4px;
+
+  font-family: inherit;
+  font-size: clamp(10px, 2.7vw, 15px);
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+/* 選択中の画像ボタン */
+.monster-detail-buttons button.selected {
+  border-color: #b18a4e;
+  background: #fff2c9;
+}
+
+/* 未獲得画像のボタン */
+.monster-detail-buttons button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* モンスターの秘密 */
+.monster-detail-secret {
+  min-height: 260px;
+  padding: 0 5px;
+}
+
+#monster-detail-secret-title {
+  font-size: clamp(20px, 5.5vw, 30px);
+  font-weight: bold;
+
+  margin-bottom: 42px;
+}
+
+/* 説明文・未解放表示 */
+#monster-detail-description {
+  font-size: 16px;
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 未解放時の「？？？」 */
+#monster-detail-description.locked {
+  font-size: 16px;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+/* 小さなスマートフォン用 */
+@media (max-width: 390px) {
+
+  .monster-detail-page {
+    padding: 38px 4% 60px;
+    border-left-width: 9px;
+    border-right-width: 9px;
+  }
+
+  .monster-detail-buttons {
+    gap: 5px;
+  }
+
+  .monster-detail-buttons button {
+    padding: 7px 2px;
+  }
+
+}
+
+/* ========================================
+   ひらモンずかん：ひらがな一覧画面
+======================================== */
+
+#monster-book-list-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1900;
+  overflow-y: auto;
+  background: #c69c69;
+  font-family: "DotGothic16", sans-serif;
+}
+
+#monster-book-list-screen[hidden] {
+  display: none !important;
+}
+
+.monster-book-list-page {
+  box-sizing: border-box;
+  width: min(100%, 600px);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 25px 5% 70px;
+  border-left: 12px solid #c69c69;
+  border-right: 12px solid #c69c69;
+  background: #ebe0ce;
+  color: #211b17;
+}
+
+#monster-book-close {
+  display: block;
+  margin: 0 0 30px auto;
+  padding: 10px;
+  background: #fffdf5;
+  border: 2px solid #92734e;
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+.monster-book-list-page h2 {
+  margin: 0 0 12px;
+  font-size: 28px;
+  text-align: center;
+}
+
+.monster-book-list-page p {
+  text-align: center;
+}
+
+#monster-book-letter-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 25px;
+}
+
+.monster-book-letter {
+  min-width: 0;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid #bca47d;
+  border-radius: 8px;
+  background: #fffdf5;
+  color: #211b17;
+  font-family: inherit;
+  font-size: clamp(22px, 6vw, 34px);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.monster-book-letter:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* 登録済みの文字 */
+
+.monster-book-letter.registered {
+  position: relative;
+  background: #fff0c9;
+  border-color: #b18a4e;
+}
+
+.monster-book-letter.registered::after {
+  content: "★";
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  color: #c28a23;
+  font-size: 12px;
+}
+
+/* ========================================
+   ひらモンずかん：秘密の説明欄
+======================================== */
+
+/* 基本説明：黒文字 */
+#monster-detail-description {
+  color: #211b17;
+  margin-top: 24px;
+}
+
+/* 追加説明：赤文字 */
+#monster-detail-extra {
+  color: #d82929;
+  margin-top: 28px;
+
+  font-size: 16px;
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ========================================
+   せってい画面
+======================================== */
+
+/* 設定画面全体 */
+.settings-screen {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  background: #ebe0ce;
+  color: #2c2723;
+  text-align: center;
+  border-radius: 12px;
+}
+
+/* hidden属性を確実に反映 */
+.settings-screen[hidden] {
+  display: none !important;
+}
+
+/* 見出し */
+.settings-screen h2 {
+  margin: 0 0 24px;
+  font-size: 28px;
+}
+
+/* 設定項目 */
+.settings-content {
+  padding: 20px 12px;
+}
+
+.settings-content h3 {
+  margin: 0 0 18px;
+  font-size: 22px;
+}
+
+/* 難易度選択ボタン */
+.settings-difficulty-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  margin: 12px auto;
+  padding: 16px 12px;
+
+  max-width: 340px;
+
+  background: #fff8eb;
+  border: 3px solid #94744d;
+  border-radius: 12px;
+
+  font-size: 22px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+/* ラジオボタン */
+.settings-difficulty-option input {
+  width: 22px;
+  height: 22px;
+  accent-color: #93652c;
+}
+
+/* もどるボタン */
+#settings-back {
+  margin-top: 24px;
+  padding: 12px 36px;
+
+  background: #8a613c;
+  color: white;
+
+  border: 3px solid #604326;
+  border-radius: 10px;
+
+  font-size: 20px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+/* バトル画面：ちずにもどる丸ボタン */
+#battle-back-map {
+  position: absolute;
+  top: -25px !important;
+  right: 0 !important;
+  left: auto;
+  z-index: 30;
+
+  width: 32px;
+  height: 32px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none !important;
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.4);
+  color: #302821;
+
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: none !important;
+  outline: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+#battle-back-map:active {
+  transform: none;
+  box-shadow: none;
+}
+
+/* タップ・ホバー・フォーカス時 */
+#battle-back-map:active,
+#battle-back-map:hover,
+#battle-back-map:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+/* ========================================
+   くえすとくりあ画面：もういちど非表示
+======================================== */
+#collection-retry {
+  display: none !important;
+}
+
+/* ===== ひらモンずかん：赤い？？？を中央寄せに固定 ===== */
+#monster-detail-extra.locked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 60px;
+
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+/* ========================================
+   タイトル画面：画像ボタン
+======================================== */
+
+/* ボタン全体の配置 */
+.title-screen {
+  padding-bottom: 8px;
+}
+
+.title-buttons {
+  width: 100%;
+  max-width: 400px;
+  margin: auto auto 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ずかん・せっていの横並び */
+.title-sub-buttons {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: center;
+}
+
+/* 画像ボタン共通 */
+#title-start,
+#title-collection,
+#title-settings {
+  display: block;
+  width: 100%;
+
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center !important;
+  background-size: 100% 100% !important;
+
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+
+  font-size: 0;
+  color: transparent;
+
+  flex-shrink: 0;
+
+  /* 青色のゆっくり明滅 */
+  animation: title-button-glow 3s ease-in-out infinite;
+}
+
+/* はじめる */
+#title-start {
+  height: 90px;
+  min-height: 90px;
+  overflow: visible;
+
+  background-image: url("https://i.postimg.cc/VkZ1fsWZ/C869131E-516C-42F2-8CE8-B02A64B11528.png");
+}
+
+/* ずかん */
+#title-collection {
+  height: 75px;
+  min-height: 75px;
+
+  background-image: url("https://i.postimg.cc/Z5sZbYxw/FD0CD6A9-83A9-48D9-BBEE-028C947B83A0.png");
+}
+
+/* せってい */
+#title-settings {
+  height: 75px;
+  min-height: 75px;
+
+  background-image: url("https://i.postimg.cc/hts8h6Jj/EB2FF4E5-F7B7-4696-9ECD-254510019C95.png");
+}
+
+/* 押したときの古い影を消す */
+.title-buttons button:active {
+  box-shadow: none;
+}
+
+/* ========================================
+   青色のゆっくり明滅アニメーション
+======================================== */
+
+@keyframes title-button-glow {
+  0%, 100% {
+    filter:
+      brightness(1)
+      drop-shadow(0 0 0 transparent);
+  }
+
+  50% {
+    filter:
+      brightness(1.2)
+      drop-shadow(0 0 8px #4dc9ff)
+      drop-shadow(0 0 15px #008cff);
+  }
+}
+
+/* ========================================
+   ずかん詳細：練習モード画像ボタン
+======================================== */
+
+#monster-detail-practice {
+  display: block;
+  width: 45%;
+  max-width: 360px;
+  height: auto;
+
+  margin: -20px auto 20px;
+
+  padding: 0;
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+#monster-detail-practice img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#monster-detail-practice:active {
+  transform: scale(0.96);
+}
