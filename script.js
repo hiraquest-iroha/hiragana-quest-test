@@ -1,6 +1,29 @@
 const SCORE_GRID_SIZE = 96;
 
 /* ========================================
+   せってい：BGM / SE の保存・即時反映
+   読み上げ音声はSEに含めない
+======================================== */
+const audioPreferenceKeys = { bgm: "hiraquest-bgm-enabled", se: "hiraquest-se-enabled" };
+function readAudioPreference(key) {
+  try { return localStorage.getItem(audioPreferenceKeys[key]) !== "off"; }
+  catch (error) { return true; }
+}
+let bgmEnabled = readAudioPreference("bgm");
+let seEnabled = readAudioPreference("se");
+function applyBgmPreference() {
+  // 再生中のBGMも直ちにミュート／復帰。再生ノードは維持する。
+  for (const gain of [
+    typeof titleBgmGain !== "undefined" ? titleBgmGain : null,
+    typeof battleBgmGain !== "undefined" ? battleBgmGain : null,
+    typeof bookBgmGain !== "undefined" ? bookBgmGain : null
+  ]) {
+    if (gain) gain.gain.value = bgmEnabled ? 0.4 : 0;
+  }
+}
+
+
+/* ========================================
    ひらがなくえすと
    モンスター・文字データ
 ======================================== */
@@ -948,6 +971,7 @@ function playHitEffect() {
 }
 
 function playAttackSound(type) {
+  if (!seEnabled) return;
 
   const sound =
     attackSounds[type];
@@ -4972,6 +4996,7 @@ const PRACTICE_MONSTER_IMAGES = {
 ============================================================================ */
 
 function playClearFanfare() {
+  if (!seEnabled) return;
 
   clearFanfare.currentTime = 0;
 
@@ -5013,7 +5038,7 @@ function restartTitleBgm() {
 
   source.buffer = titleBgmBuffer;
   source.loop = true;
-  gain.gain.value = 0.4;
+  gain.gain.value = bgmEnabled ? 0.4 : 0;
 
   source.connect(gain);
   gain.connect(titleAudioContext.destination);
@@ -5065,7 +5090,7 @@ async function startBattleBgm() {
   source.buffer = battleBgmBuffer;
   source.loop = true;
 
-  gain.gain.value = 0.4;
+  gain.gain.value = bgmEnabled ? 0.4 : 0;
 
   source.connect(gain);
   gain.connect(titleAudioContext.destination);
@@ -5273,7 +5298,7 @@ async function startBookBgm() {
 
   source.buffer = bookBgmBuffer;
   source.loop = true;
-  gain.gain.value = 0.4;
+  gain.gain.value = bgmEnabled ? 0.4 : 0;
 
   source.connect(gain);
   gain.connect(titleAudioContext.destination);
@@ -6118,7 +6143,9 @@ if (points.length < 5) {
   return;
 }
 
-
+/* 1回の筆跡で攻撃は1回だけ：採点前に即座に連打を防止 */
+if (attackButton.disabled) return;
+attackButton.disabled = true;
 
         const score =
       calculateScore();
@@ -7587,6 +7614,11 @@ setTimeout(() => {
   /* 書いた文字だけ消す */
   clearDrawing(false);
 
+  /* 次の筆跡を受け付ける（撃破中は解除しない） */
+  if (!battleEnded) {
+    attackButton.disabled = false;
+  }
+
 }, 900);
 
   }
@@ -7889,6 +7921,60 @@ const settingsBackButton =
 
 const difficultyStorageKey =
   "hiraquest-difficulty";
+
+/* せってい：BGM / SE */
+const bgmCheckbox = document.getElementById("settings-bgm");
+const seCheckbox = document.getElementById("settings-se");
+function refreshAudioSettings() {
+  if (bgmCheckbox) bgmCheckbox.checked = bgmEnabled;
+  if (seCheckbox) seCheckbox.checked = seEnabled;
+  const bgmLabel = document.getElementById("settings-bgm-state");
+  const seLabel = document.getElementById("settings-se-state");
+  if (bgmLabel) bgmLabel.textContent = bgmEnabled ? "ON" : "OFF";
+  if (seLabel) seLabel.textContent = seEnabled ? "ON" : "OFF";
+}
+if (bgmCheckbox) bgmCheckbox.addEventListener("change", () => {
+  bgmEnabled = bgmCheckbox.checked;
+  try { localStorage.setItem(audioPreferenceKeys.bgm, bgmEnabled ? "on" : "off"); }
+  catch (error) { console.warn("BGM設定を保存できません", error); }
+  applyBgmPreference();
+  refreshAudioSettings();
+});
+if (seCheckbox) seCheckbox.addEventListener("change", () => {
+  seEnabled = seCheckbox.checked;
+  try { localStorage.setItem(audioPreferenceKeys.se, seEnabled ? "on" : "off"); }
+  catch (error) { console.warn("SE設定を保存できません", error); }
+  if (!seEnabled) {
+    Object.values(attackSounds).forEach(sound => { sound.pause(); sound.currentTime = 0; });
+    clearFanfare.pause(); clearFanfare.currentTime = 0;
+  }
+  refreshAudioSettings();
+});
+refreshAudioSettings();
+
+/* せってい：図鑑・ひみつ・ステージ解放の記録だけを消去 */
+const resetRecordButton = document.getElementById("settings-reset-record");
+if (resetRecordButton) resetRecordButton.addEventListener("click", () => {
+  const accepted = window.confirm(
+    "かぎをあけたステージと、あつめたずかんがきえるよ。ほんとうにけす？"
+  );
+  if (!accepted) return;
+  try {
+    for (const key of [
+      "hiraquest-monster-collection",
+      "hiraquest-monster-secrets",
+      "hiraquest-key-ka",
+      "hiraquest-key-sa"
+    ]) localStorage.removeItem(key);
+  } catch (error) {
+    console.warn("きろくの初期化に失敗しました", error);
+    window.alert("きろくを けせませんでした。もういちど ためしてね。");
+    return;
+  }
+  // メモリ内の図鑑表示・ステージ状態も起動時から作り直す
+  window.location.reload();
+});
+
 
 /* 保存済みの難易度を読み込む */
 let selectedDifficulty = "easy";

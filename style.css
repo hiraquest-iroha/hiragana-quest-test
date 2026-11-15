@@ -2375,3 +2375,31 @@ body:has(#title-screen:not([style*="display: none"])) {
 #monster-detail-practice:active {
   transform: scale(0.96);
 }
+
+/* ========================================
+   せってい：おと・きろく
+======================================== */
+.settings-section-heading { margin-top: 26px !important; }
+.settings-toggle-option {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; max-width: 340px; margin: 12px auto;
+  padding: 13px 16px; background: #fff8eb;
+  border: 3px solid #94744d; border-radius: 12px;
+  font-size: 19px; font-weight: bold; cursor: pointer;
+}
+.settings-toggle-option input { width: 27px; height: 27px; accent-color: #93652c; margin-left: auto; }
+.settings-onoff { min-width: 36px; font-size: 16px; }
+.settings-audio-note { font-size: 13px; line-height: 1.6; }
+#settings-reset-record {
+  display: block; margin: 12px auto; padding: 14px 22px;
+  max-width: 340px; width: 100%; background: #fff1e8;
+  border: 3px solid #a34437; border-radius: 12px;
+  color: #852c22; font: inherit; font-size: 19px; font-weight: bold;
+  cursor: pointer;
+}
+/* 戦闘背景のみを拡大。モンスターのサイズや配置は変更しない */
+.monster-area {
+  background-size: auto 115% !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
