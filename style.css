@@ -2403,3 +2403,21 @@ body:has(#title-screen:not([style*="display: none"])) {
   background-position: center center !important;
   background-repeat: no-repeat !important;
 }
+
+/* ========================================
+   未獲得ひらモン：図鑑・練習共通
+   外部画像がCanvasに使えない場合も未加工で表示しない
+======================================== */
+#monster-detail-monster.collection-preview-locked,
+#monster-image.collection-preview-locked {
+  filter: blur(13px) brightness(0.82);
+}
+#monster-detail-monster.collection-preview-critical,
+#monster-image.collection-preview-critical {
+  filter: blur(20px) brightness(0.76);
+}
+#monster-detail-monster.collection-preview-pixelated,
+#monster-image.collection-preview-pixelated {
+  filter: brightness(0.86);
+  image-rendering: pixelated;
+}

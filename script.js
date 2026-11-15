@@ -785,32 +785,85 @@ function registerMonsterImage(letter, type) {
   });
 }
 
-function showMonsterImage(type) {
+/* ========================================
+   未獲得画像：本来の画像をモザイク表示
+   CORSが許可されない画像はぼかし表示に切替
+   読み込み中も元画像を見せない
+======================================== */
+function setCollectionPreview(img, url, locked, isCritical = false) {
+  const requestId = (img._mosaicRequestId || 0) + 1;
+  img._mosaicRequestId = requestId;
+  img.classList.remove("collection-preview-pixelated");
+  img.classList.toggle("collection-preview-locked", locked);
+  img.classList.toggle("collection-preview-critical", locked && isCritical);
 
-  const monster = monsters[currentLetter];
-  if (!monster) return;
-
-  /* 通常バトル */
-  if (!isPracticeMode) {
-    monsterImage.src = monster.images[type];
+  if (!url) {
+    img.removeAttribute("src");
     return;
   }
 
-  /* 練習モード：本編でGET済みか確認 */
+  /* 獲得済みは通常画像に戻す */
+  if (!locked) {
+    img.src = url;
+    return;
+  }
+
+  /* 先にぼかしを設定してから画像を読み込む */
+  img.src = url;
+
+  /* 低解像度に縮小→拡大して、実際のモザイク画像を生成 */
+  const source = new Image();
+  source.crossOrigin = "anonymous";
+  source.onload = () => {
+    if (img._mosaicRequestId !== requestId) return;
+    try {
+      const w = source.naturalWidth;
+      const h = source.naturalHeight;
+      if (!w || !h) return;
+      const cells = isCritical ? 10 : 16;
+      const tiny = document.createElement("canvas");
+      tiny.width = cells;
+      tiny.height = Math.max(1, Math.round(cells * h / w));
+      const tctx = tiny.getContext("2d");
+      tctx.drawImage(source, 0, 0, tiny.width, tiny.height);
+      const output = document.createElement("canvas");
+      output.width = Math.min(w, 480);
+      output.height = Math.max(1, Math.round(output.width * h / w));
+      const ctx = output.getContext("2d");
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(tiny, 0, 0, output.width, output.height);
+      const mosaicUrl = output.toDataURL("image/png");
+      if (img._mosaicRequestId !== requestId) return;
+      img.src = mosaicUrl;
+      img.classList.add("collection-preview-pixelated");
+    } catch (err) {
+      /* 外部画像の制約時はCSSの強いぼかしを維持 */
+    }
+  };
+  source.onerror = () => {
+    /* 元画像は常にぼかした状態で表示される */
+  };
+  source.src = url;
+}
+
+function showMonsterImage(type) {
+  const monster = monsters[currentLetter];
+  if (!monster) return;
+
+  if (!isPracticeMode) {
+    setCollectionPreview(monsterImage, monster.images[type], false);
+    return;
+  }
+
   const collection = loadMonsterCollection();
   const owned = collection[currentLetter] || {};
-
-  if (owned[type] === true && monster.images[type]) {
-
-    /* GET済み：本編モンスターを表示 */
-    monsterImage.src = monster.images[type];
-
-  } else {
-
-    /* 未GET：練習専用モンスターを表示 */
-    monsterImage.src = PRACTICE_MONSTER_IMAGES[type];
-
-  }
+  const locked = owned[type] !== true;
+  setCollectionPreview(
+    monsterImage,
+    monster.images[type],
+    locked,
+    type === "critical"
+  );
 }
 
 /* ========================================
@@ -8589,10 +8642,12 @@ updateMonsterName();
     const owned = collection[currentLetter] || {};
     const monster = monsters[currentLetter];
 
-    monsterImage.src =
-      owned.normal === true && monster.images.normal
-        ? monster.images.normal
-        : PRACTICE_MONSTER_IMAGES.normal;
+    setCollectionPreview(
+      monsterImage,
+      monster.images.normal,
+      owned.normal !== true,
+      false
+    );
 
     updateStrokeStartDot();
 
@@ -8903,36 +8958,22 @@ if (detailNextButton) {
 }
 
 
-  /* 獲得済み画像を表示 */
+  /* 未獲得も含め、4種類の画像を切り替え可能 */
   function showMonsterImage(type) {
-
     if (!selectedLetter) return;
-
     const monster = monsters[selectedLetter];
     const collection = loadMonsterCollection();
-
     const owned = collection[selectedLetter] || {};
+    const locked = owned[type] !== true;
 
     imageButtons.forEach(button => {
-
       const buttonType = button.dataset.imageType;
-
-      button.disabled = !owned[buttonType];
-
-      button.classList.toggle(
-        "selected",
-        buttonType === type && !!owned[buttonType]
-      );
+      button.disabled = false;
+      button.classList.toggle("selected", buttonType === type);
     });
 
-    if (!owned[type]) {
-      image.removeAttribute("src");
-      image.alt = "まだ てにいれていないよ";
-      return;
-    }
-
-    image.src = monster.images[type];
-    image.alt = monster.name;
+    image.alt = locked ? "まだ てにいれていない がぞう" : monster.name;
+    setCollectionPreview(image, monster.images[type], locked, type === "critical");
   }
 
   /* 4種類の画像切り替え */
