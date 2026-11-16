@@ -2421,3 +2421,20 @@ body:has(#title-screen:not([style*="display: none"])) {
   filter: brightness(0.86);
   image-rendering: pixelated;
 }
+
+/* ========================================
+   ゲーム全体の長押し選択防止
+======================================== */
+
+html,
+body,
+body * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
