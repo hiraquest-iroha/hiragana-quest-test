@@ -5540,6 +5540,51 @@ Object.defineProperty(
    06 戦闘・クエスト進行
 ============================================================================ */
 
+/* ========================================
+   ちょいむず・むずい カットイン
+   通常クエストの対象文字初回登場時のみ
+   え・け：ちょいむず（0.5秒）
+======================================== */
+const difficultyCutinImages = {
+  little: "https://i.postimg.cc/zGKDgG2S/1515B5E5-C670-46E3-862F-26F1207D5914.png",
+  hard: "https://i.postimg.cc/mgCZHgpy/77A9CBC4-0648-4AF1-8471-4B582C2AE784.png"
+};
+const difficultyCutinLetters = {
+  "え": "little",
+  "け": "little"
+};
+let difficultyCutinActive = false;
+let difficultyCutinTimer = null;
+
+function stopDifficultyCutin() {
+  clearTimeout(difficultyCutinTimer);
+  difficultyCutinTimer = null;
+  difficultyCutinActive = false;
+  const layer = document.getElementById("difficulty-cutin");
+  if (layer) {
+    layer.classList.remove("difficulty-cutin-active");
+    layer.hidden = true;
+  }
+}
+
+function showDifficultyCutin() {
+  stopDifficultyCutin();
+  if (isPracticeMode) return;
+  const type = difficultyCutinLetters[currentLetter];
+  if (!type) return;
+  const layer = document.getElementById("difficulty-cutin");
+  const image = document.getElementById("difficulty-cutin-image");
+  if (!layer || !image) return;
+
+  image.src = difficultyCutinImages[type];
+  difficultyCutinActive = true;
+  layer.hidden = false;
+  // 再表示時もアニメーションを先頭から開始する
+  void layer.offsetWidth;
+  layer.classList.add("difficulty-cutin-active");
+  difficultyCutinTimer = setTimeout(stopDifficultyCutin, type === "hard" ? 600 : 500);
+}
+
 function goToNextLetter() {
 
   currentLetterIndex++;
@@ -5692,7 +5737,7 @@ showMonsterImage(
 );
 
 updateStrokeStartDot();
-
+showDifficultyCutin();
 
 
   /*
@@ -6061,7 +6106,7 @@ canvas.addEventListener(
   "pointerdown",
   event => {
 
-    if (battleEnded) {
+    if (battleEnded || difficultyCutinActive) {
       return;
     }
 
@@ -6202,7 +6247,7 @@ attackButton.addEventListener(
   () => {
 
     if (
-      battleEnded
+      battleEnded || difficultyCutinActive
     ) {
       return;
     }
@@ -8339,6 +8384,7 @@ preloadQuestMonsterImages(currentQuestIndex);
     updateMonsterName();
     showMonsterImage("normal");
     updateStrokeStartDot();
+    showDifficultyCutin();
 
     
 /* モンスター名の下に書字案内を表示 */
@@ -8433,6 +8479,7 @@ preloadQuestMonsterImages(currentQuestIndex);
     updateMonsterName();
     showMonsterImage("normal");
     updateStrokeStartDot();
+    showDifficultyCutin();
 
     
 /* モンスター名の下に書字案内を表示 */
@@ -8573,6 +8620,9 @@ if (practiceButton) {
       document.getElementById("quest-map-screen");
 
     if (!gameScreen || !mapScreen) return;
+
+    /* 練習ではカットインを表示しない */
+    stopDifficultyCutin();
 
     /* 練習モードを有効にする */
     isPracticeMode = true;

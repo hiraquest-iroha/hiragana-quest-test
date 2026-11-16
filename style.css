@@ -2438,3 +2438,39 @@ img {
   -webkit-user-drag: none;
   user-drag: none;
 }
+
+/* ========================================
+   難易度カットイン（通常クエスト専用）
+======================================== */
+.difficulty-cutin[hidden] { display: none !important; }
+.difficulty-cutin {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: auto;
+  touch-action: none;
+  background: transparent;
+}
+.difficulty-cutin img {
+  display: block;
+  width: 100vw;
+  max-width: none;
+  height: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  transform: translateX(110vw);
+}
+.difficulty-cutin-active img {
+  animation: difficulty-cutin-slide 0.5s linear both;
+}
+@keyframes difficulty-cutin-slide {
+  0% { transform: translateX(110vw); }
+  20% { transform: translateX(0); }
+  70% { transform: translateX(0); }
+  100% { transform: translateX(-110vw); }
+}
