@@ -2466,11 +2466,12 @@ img {
   transform: translateX(110vw);
 }
 .difficulty-cutin-active img {
-  animation: difficulty-cutin-slide 0.5s linear both;
+  animation: difficulty-cutin-slide 0.7s linear both;
 }
+
 @keyframes difficulty-cutin-slide {
-  0% { transform: translateX(110vw); }
-  20% { transform: translateX(0); }
-  70% { transform: translateX(0); }
+  0%   { transform: translateX(110vw); }
+  14%  { transform: translateX(0); }
+  79%  { transform: translateX(0); }
   100% { transform: translateX(-110vw); }
 }
