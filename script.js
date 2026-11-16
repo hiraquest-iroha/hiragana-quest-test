@@ -794,6 +794,8 @@ function setCollectionPreview(img, url, locked, isCritical = false) {
   const requestId = (img._mosaicRequestId || 0) + 1;
   img._mosaicRequestId = requestId;
   img.classList.remove("collection-preview-pixelated");
+  img.style.visibility = "visible";
+  if (img.parentElement) img.parentElement.classList.remove("collection-preview-loading");
   img.classList.toggle("collection-preview-locked", locked);
   img.classList.toggle("collection-preview-critical", locked && isCritical);
 
@@ -808,8 +810,22 @@ function setCollectionPreview(img, url, locked, isCritical = false) {
     return;
   }
 
-  /* 先にぼかしを設定してから画像を読み込む */
-  img.src = url;
+  /* 未獲得の元画像は表示用imgに絶対に設定しない。
+     モザイク完成までは前の画像を隠して「？」を表示する。 */
+  img.removeAttribute("src");
+  img.style.visibility = "hidden";
+  const parent = img.parentElement;
+  if (parent) parent.classList.add("collection-preview-loading");
+
+  const finish = (mosaicUrl) => {
+    if (img._mosaicRequestId !== requestId) return;
+    if (mosaicUrl) {
+      img.src = mosaicUrl;
+      img.classList.add("collection-preview-pixelated");
+      img.style.visibility = "visible";
+    }
+    if (parent) parent.classList.remove("collection-preview-loading");
+  };
 
   /* 低解像度に縮小→拡大して、実際のモザイク画像を生成 */
   const source = new Image();
@@ -834,14 +850,15 @@ function setCollectionPreview(img, url, locked, isCritical = false) {
       ctx.drawImage(tiny, 0, 0, output.width, output.height);
       const mosaicUrl = output.toDataURL("image/png");
       if (img._mosaicRequestId !== requestId) return;
-      img.src = mosaicUrl;
-      img.classList.add("collection-preview-pixelated");
+      finish(mosaicUrl);
     } catch (err) {
-      /* 外部画像の制約時はCSSの強いぼかしを維持 */
+      /* Canvasが利用できない場合も元画像は見せない */
+      finish(null);
     }
   };
   source.onerror = () => {
-    /* 元画像は常にぼかした状態で表示される */
+    /* 読み込み失敗時も元画像は見せない */
+    finish(null);
   };
   source.src = url;
 }
