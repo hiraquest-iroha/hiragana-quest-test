@@ -1950,6 +1950,107 @@ function getTotalStrokeLength() {
 
 
 /* ========================================
+   大ダメージ以上を抑える落書き判定
+======================================== */
+function hasScribbleStrokes() {
+  // 端末の入力頻度や手の細かい震えで判定が変わらないようにする。
+  const rect = canvas.getBoundingClientRect();
+  const step = Math.min(rect.width, rect.height) * 0.035;
+  if (step <= 0) return false;
+
+  let closedLoops = 0;
+  let bentStrokes = 0;
+  let repeatedBends = 0;
+
+  for (const stroke of strokes) {
+    if (stroke.length < 2) continue;
+
+    const samples = [stroke[0]];
+    let remaining = step;
+    for (let i = 1; i < stroke.length; i++) {
+      const end = stroke[i];
+      let start = stroke[i - 1];
+      let distance = Math.hypot(end.x - start.x, end.y - start.y);
+      while (distance >= remaining) {
+        const fraction = remaining / distance;
+        start = {
+          x: start.x + (end.x - start.x) * fraction,
+          y: start.y + (end.y - start.y) * fraction
+        };
+        samples.push(start);
+        distance -= remaining;
+        remaining = step;
+      }
+      remaining -= distance;
+    }
+
+    let headingChange = 0;
+    let bend = 0;
+    let sharpBends = 0;
+    let broadBends = 0;
+    let minHeadingChange = 0;
+    let maxHeadingChange = 0;
+    let forwardTurn = 0;
+    let reverseTurn = 0;
+    let previousHeading = null;
+    for (let i = 2; i < samples.length; i += 2) {
+      const a = samples[i - 2];
+      const b = samples[i];
+      if (Math.hypot(b.x - a.x, b.y - a.y) < step * 0.5) continue;
+
+      const heading = Math.atan2(b.y - a.y, b.x - a.x);
+      if (previousHeading !== null) {
+        const difference = heading - previousHeading;
+        const turn = Math.atan2(Math.sin(difference), Math.cos(difference));
+        headingChange += turn;
+        forwardTurn = Math.max(forwardTurn, headingChange - minHeadingChange);
+        reverseTurn = Math.max(reverseTurn, maxHeadingChange - headingChange);
+        minHeadingChange = Math.min(minHeadingChange, headingChange);
+        maxHeadingChange = Math.max(maxHeadingChange, headingChange);
+
+        // 近い位置にある同方向の曲がりはひとつの折り返しとして数える。
+        if (Math.abs(turn) < Math.PI / 12 || turn * bend < 0) {
+          if (Math.abs(bend) >= Math.PI * 0.55) sharpBends++;
+          if (Math.abs(bend) >= Math.PI * 0.42) broadBends++;
+          bend = 0;
+        }
+        if (Math.abs(turn) >= Math.PI / 12) bend += turn;
+      }
+      previousHeading = heading;
+    }
+    if (Math.abs(bend) >= Math.PI * 0.55) sharpBends++;
+    if (Math.abs(bend) >= Math.PI * 0.42) broadBends++;
+    if (broadBends >= 1) bentStrokes++;
+    if (broadBends >= 2) repeatedBends++;
+
+    const netTurn = Math.abs(headingChange);
+    const first = stroke[0];
+    const last = stroke[stroke.length - 1];
+    const isClosed = Math.hypot(last.x - first.x, last.y - first.y) <= step * 1.5;
+
+    // 繰り返しの折り返し、渦巻き、左右両方向に大きく回る8の字。
+    if (sharpBends >= 4 ||
+        (sharpBends >= 3 && strokes.length === 1) ||
+        netTurn >= Math.PI * 2.85 ||
+        (netTurn >= Math.PI * 2.1 && broadBends === 0) ||
+        Math.min(forwardTurn, reverseTurn) >= Math.PI * 1.25 ||
+        (isClosed && netTurn <= Math.PI * 0.75 &&
+          Math.max(forwardTurn, reverseTurn) >= Math.PI * 1.15) ||
+        repeatedBends >= 2 || bentStrokes >= 3) {
+      return true;
+    }
+
+    // 8の字を二画に分けて描いた場合も検出する。
+    if (isClosed && netTurn >= Math.PI * 1.55) {
+      closedLoops++;
+      if (closedLoops >= 2) return true;
+    }
+  }
+
+  return false;
+}
+
+/* ========================================
    か行（むずかしい）検証済み形状判定
    か行テストPen 15ケース合格版から移植
 ======================================== */
@@ -7638,9 +7739,11 @@ const kaShapeOK = !isHardKaRow ? true :
   checkKaRowScribble();
 
 const kaDamage = !strokeOrderOK || !kaShapeOK ? 5 : score >= 45 ? 30 : 20;
-const result = isHardKaRow
-  ? getDamageResult(kaDamage === 30 ? 72 : kaDamage === 20 ? 55 : 0)
-  : getDamageResult(adjustedScore);
+const finalScore = isHardKaRow
+  ? (kaDamage === 30 ? 72 : kaDamage === 20 ? 55 : 0)
+  : adjustedScore;
+// 文字ごとの加点や難易度別の判定を経た後で、明らかな落書きを小ダメージにする。
+const result = getDamageResult(finalScore >= 55 && hasScribbleStrokes() ? 0 : finalScore);
 console.log("書き順:", strokeOrderOK);
 　　　
     /* 通常バトルだけHPを減らす */
