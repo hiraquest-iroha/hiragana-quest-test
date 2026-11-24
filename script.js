@@ -43,7 +43,7 @@ const letterData = {
 
   "あ": {
     guide:
-      POSTIMG + "TPqhDSLD/wu-ti64-20260905001658.png",
+      "./assets/guides/a.png",
 
     strokeStarts: [
       { x: 240, y: 315 },
@@ -54,7 +54,7 @@ const letterData = {
 
   "い": {
     guide:
-      POSTIMG + "25F3ZJbn/wu-ti64-20260905001702.png",
+      "./assets/guides/i.png",
 
     strokeStarts: [
       { x: 225, y: 320 },
@@ -64,7 +64,7 @@ const letterData = {
 
   "う": {
     guide:
-      POSTIMG + "RFShQRKh/wu-ti64-20260905001704.png",
+      "./assets/guides/u.png",
 
     strokeStarts: [
       { x: 385, y: 165 },
@@ -74,7 +74,7 @@ const letterData = {
 
   "え": {
     guide:
-      POSTIMG + "4dfyb5Vn/wu-ti64-20260905001706.png",
+      "./assets/guides/e.png",
 
     strokeStarts: [
       { x: 390, y: 180 },
@@ -84,7 +84,7 @@ const letterData = {
 
     "お": {
     guide:
-      POSTIMG + "cHxCMmwr/wu-ti64-20260905001708.png",
+      "./assets/guides/o.png",
 
     strokeStarts: [
       { x: 215, y: 405 },
@@ -95,7 +95,7 @@ const letterData = {
 
     "か": {
     guide:
-      POSTIMG + "x8yXc221/wu-ti64-20260918223148.png",
+      "./assets/guides/ka.png",
 
     strokeStarts: [
       { x: 175, y: 425 },
@@ -106,7 +106,7 @@ const letterData = {
 
   "き": {
     guide:
-      POSTIMG + "d3mhLYY5/wu-ti64-20260918223151.png",
+      "./assets/guides/ki.png",
 
     strokeStarts: [
       { x: 270, y: 355 },
@@ -118,7 +118,7 @@ const letterData = {
 
   "く": {
   guide:
-    POSTIMG + "prt9Wdgv/wu-ti64-20260918223155.png",
+    "./assets/guides/ku.png",
 
   strokeStarts: [
     { x: 610,  y: 185 }
@@ -127,7 +127,7 @@ const letterData = {
 
   "け": {
   guide:
-    POSTIMG + "Y0fvhHH2/wu-ti64-20260918223157.png",
+    "./assets/guides/ke.png",
   strokeStarts: [
   { x: 295, y: 230 },
   { x: 430, y: 405 },
@@ -137,7 +137,7 @@ const letterData = {
 
   　"こ": {
   guide:
-    POSTIMG + "QNp96pWR/wu-ti64-20260918223200.png",
+    "./assets/guides/ko.png",
   strokeStarts: [
     { x: 340, y: 280 },
     { x: 300, y: 630 }
@@ -160,16 +160,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "m25V71Qx/aripuri1.png",
+        "./assets/monsters/aripuri1.png",
 
       small:
-        POSTIMG + "653Y7f41/aripuri2.png",
+        "./assets/monsters/aripuri2.png",
 
       large:
-        POSTIMG + "kX4fVvRV/aripuri3.png",
+        "./assets/monsters/aripuri3.png",
 
       critical:
-        POSTIMG + "jd5ZW4n4/aripuri4.png"
+        "./assets/monsters/aripuri4.png"
     }
   },
 
@@ -180,16 +180,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "jd5ZW4nj/imomutchiri1.png",
+        "./assets/monsters/imomutchiri1.png",
 
       small:
-        POSTIMG + "BQ6M8BPm/imomutchiri2.png",
+        "./assets/monsters/imomutchiri2.png",
 
       large:
-        POSTIMG + "5N0nHSQB/imomutchiri3.png",
+        "./assets/monsters/imomutchiri3.png",
 
       critical:
-        POSTIMG + "m2D8cy18/imomutchiri4.png"
+        "./assets/monsters/imomutchiri4.png"
     }
   },
 
@@ -200,16 +200,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "fTLB3fSm/unkokku1.png",
+        "./assets/monsters/unkokku1.png",
 
       small:
-        POSTIMG + "02BZ7K7Z/unkokku2.png",
+        "./assets/monsters/unkokku2.png",
 
       large:
-        POSTIMG + "02Qc60Kd/unkokku3.png",
+        "./assets/monsters/unkokku3.png",
 
       critical:
-        POSTIMG + "hP5MVQV2/unkokku4.png"
+        "./assets/monsters/unkokku4.png"
     }
   },
 
@@ -219,16 +219,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "CL1mZsnd/egguman1.png",
+        "./assets/monsters/egguman1.png",
 
       small:
-        POSTIMG + "5NRp8Q8n/egguman2.png",
+        "./assets/monsters/egguman2.png",
 
       large:
-        POSTIMG + "rFmQdNRj/egguman3.png",
+        "./assets/monsters/egguman3.png",
 
       critical:
-        POSTIMG + "yYbn03FC/egguman4.png"
+        "./assets/monsters/egguman4.png"
     }
   },
 
@@ -238,16 +238,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "HsxBJ983/okutopachu~tsu1.png",
+        "./assets/monsters/okutopachu-tsu1.png",
 
       small:
-        POSTIMG + "28KTnLnK/okutopachu~tsu2.png",
+        "./assets/monsters/okutopachu-tsu2.png",
 
       large:
-        POSTIMG + "dt147jZR/okutopachu~tsu3.png",
+        "./assets/monsters/okutopachu-tsu3.png",
 
       critical:
-        POSTIMG + "gkT43LvP/okutopachu~tsu4.png"
+        "./assets/monsters/okutopachu-tsu4.png"
     }
   },
 
@@ -259,16 +259,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "cCjYtYPF/kachikachikoori1.png",
+        "./assets/monsters/kachikachikoori1.png",
 
       small:
-        POSTIMG + "XqXdvx1C/kachikachikoori2.png",
+        "./assets/monsters/kachikachikoori2.png",
 
       large:
-        POSTIMG + "zv3Kfp2N/kachikachikoori3.png",
+        "./assets/monsters/kachikachikoori3.png",
 
       critical:
-        POSTIMG + "cC6wJTkC/kachikachikoori4.png"
+        "./assets/monsters/kachikachikoori4.png"
     }
   },
 
@@ -278,16 +278,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "rszxpgZV/kirakurage1.png",
+        "./assets/monsters/kirakurage1.png",
 
       small:
-        POSTIMG + "Wztg4SYM/kirakurage2.png",
+        "./assets/monsters/kirakurage2.png",
 
       large:
-        POSTIMG + "PJNYqKVr/kirakurage3.png",
+        "./assets/monsters/kirakurage3.png",
 
       critical:
-        POSTIMG + "7hb0LXtS/kirakurage4.png"
+        "./assets/monsters/kirakurage4.png"
     }
   },
 
@@ -297,16 +297,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "2y3h5T9C/kuto~urufu1.png",
+        "./assets/monsters/kuto-urufu1.png",
 
       small:
-        POSTIMG + "FzqckcwV/kuto~urufu2.png",
+        "./assets/monsters/kuto-urufu2.png",
 
       large:
-        POSTIMG + "4ynV3w2g/kuto~urufu3.png",
+        "./assets/monsters/kuto-urufu3.png",
 
       critical:
-        POSTIMG + "zvMWHW4g/kuto~urufu4.png"
+        "./assets/monsters/kuto-urufu4.png"
     }
   },
 
@@ -316,16 +316,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "pryzdkcM/kebukai1.png",
+        "./assets/monsters/kebukai1.png",
 
       small:
-        POSTIMG + "x87HNHBq/kebukai2.png",
+        "./assets/monsters/kebukai2.png",
 
       large:
-        POSTIMG + "sx172KHF/kebukai3.png",
+        "./assets/monsters/kebukai3.png",
 
       critical:
-        POSTIMG + "SR58Y8HZ/kebukai4.png"
+        "./assets/monsters/kebukai4.png"
     }
   },
 
@@ -335,16 +335,16 @@ const monsters = {
 
     images: {
       normal:
-        POSTIMG + "MHXVGt3p/konbu1.png",
+        "./assets/monsters/konbu1.png",
 
       small:
-        POSTIMG + "T1Sm5mBN/konbu2.png",
+        "./assets/monsters/konbu2.png",
 
       large:
-        POSTIMG + "C5dkKJrB/konbu3.png",
+        "./assets/monsters/konbu3.png",
 
       critical:
-        POSTIMG + "kGZ8R8L1/konbu4.png"
+        "./assets/monsters/konbu4.png"
     }
   },
 
@@ -1065,17 +1065,17 @@ function playAttackEffect(type) {
   if (type === "small") {
 
     effectURL =
-      "https://i.postimg.cc/SKQsfffY/wu-ti67-20260916160935.png";
+      "./assets/effects/small.png";
 
   } else if (type === "large") {
 
     effectURL =
-      "https://i.postimg.cc/k5M4vvvw/wu-ti67-20260916160933.png";
+      "./assets/effects/large.png";
 
   } else if (type === "critical") {
 
     effectURL =
-      "https://i.postimg.cc/BvZ6BBBM/wu-ti67-20260916160931.png";
+      "./assets/effects/critical.png";
 
   } else {
 
@@ -5546,8 +5546,8 @@ Object.defineProperty(
    え・け：ちょいむず（0.7秒）
 ======================================== */
 const difficultyCutinImages = {
-  little: "https://i.postimg.cc/zGKDgG2S/1515B5E5-C670-46E3-862F-26F1207D5914.png",
-  hard: "https://i.postimg.cc/mgCZHgpy/77A9CBC4-0648-4AF1-8471-4B582C2AE784.png"
+  little: "./assets/effects/cutin-little.png",
+  hard: "./assets/effects/cutin-hard.png"
 };
 const difficultyCutinLetters = {
   "え": "little",
@@ -5906,12 +5906,12 @@ const questOrders = [
 const questStageSettings = [
   {
     label: "あ行",
-    background: "https://i.postimg.cc/2SvXW8V7/wu-ti96-20261017202239.png",
+    background: "./assets/backgrounds/port.jpg",
     nextKey: "hiraquest-key-ka"
   },
   {
     label: "か行",
-    background: "https://i.postimg.cc/VkMHtLdB/wu-ti96-20261017202241.png",
+    background: "./assets/backgrounds/ice.jpg",
     nextKey: "hiraquest-key-sa"
   }
 ];
@@ -8814,7 +8814,7 @@ if (registered) {
 
     /* ひらモンずかん：全モンスター共通背景 */
 picture.style.backgroundImage =
-  'url("https://i.postimg.cc/W34n52bG/wu-ti97-20261017202055.png")';
+  'url("./assets/backgrounds/book.png")';
 
     /* ========================================
    ずかん：未遭遇モンスター名を隠す

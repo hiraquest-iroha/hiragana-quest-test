@@ -494,7 +494,7 @@ h1 {
   max-width: calc((100vw - 48px) / 2);
   padding: 0;
   margin: 0 24px 0 0;
-  background: transparent url("https://i.postimg.cc/SxsGwtMM/4EE3C798-AA35-4142-8022-CD61FCF2FE27.png") center / contain no-repeat;
+  background: transparent url("./assets/ui/erase.png") center / contain no-repeat;
   border: none;
   border-radius: 0;
   font-size: 0;
@@ -510,7 +510,7 @@ h1 {
   max-width: calc((100vw - 48px) / 2);
   padding: 0;
   margin: 0;
-  background: transparent url("https://i.postimg.cc/3xRZPbvG/FA8FFB29-FAEA-4499-B264-8DE73D222056.png") center / contain no-repeat;
+  background: transparent url("./assets/ui/attack.png") center / contain no-repeat;
   border: none;
   border-radius: 0;
   font-size: 0;
@@ -939,7 +939,7 @@ button:disabled {
   background-color: #10253e;
   
 background-image:
-  url("https://i.postimg.cc/76vB0hNW/07D2E14C-D702-489F-AEF9-0DAF3128DC1E.png");
+  url("./assets/backgrounds/title.png");
 
   background-position: center center;
   background-repeat: no-repeat;
@@ -2302,7 +2302,7 @@ body:has(#title-screen:not([style*="display: none"])) {
   min-height: 90px;
   overflow: visible;
 
-  background-image: url("https://i.postimg.cc/VkZ1fsWZ/C869131E-516C-42F2-8CE8-B02A64B11528.png");
+  background-image: url("./assets/ui/start.png");
 }
 
 /* ずかん */
@@ -2310,7 +2310,7 @@ body:has(#title-screen:not([style*="display: none"])) {
   height: 75px;
   min-height: 75px;
 
-  background-image: url("https://i.postimg.cc/Z5sZbYxw/FD0CD6A9-83A9-48D9-BBEE-028C947B83A0.png");
+  background-image: url("./assets/ui/book.png");
 }
 
 /* せってい */
@@ -2318,7 +2318,7 @@ body:has(#title-screen:not([style*="display: none"])) {
   height: 75px;
   min-height: 75px;
 
-  background-image: url("https://i.postimg.cc/hts8h6Jj/EB2FF4E5-F7B7-4696-9ECD-254510019C95.png");
+  background-image: url("./assets/ui/settings.png");
 }
 
 /* 押したときの古い影を消す */
