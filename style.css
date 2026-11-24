@@ -2475,3 +2475,64 @@ img {
   83%  { transform: translateX(0); }
   100% { transform: translateX(-110vw); }
 }
+
+/* ========================================
+   スマホ縦画面：ブラウザのバーが出ていても戦闘操作が収まる配置
+======================================== */
+@media (orientation: portrait) and (max-height: 800px) {
+  @supports (height: 100svh) {
+    .game {
+      /* バーの開閉で書字枠の座標が変わらないよう、狭い方の表示領域を使う。 */
+      --battle-board-size: min(80vw, 360px, max(180px, calc(100svh - 254px)));
+      padding-block: 6px 8px;
+    }
+
+    .game .monster-area {
+      min-height: 0;
+      /* HTML内の全角空白が作る行の高さを詰める。 */
+      font-size: 0;
+    }
+
+    .game .monster-frame {
+      height: clamp(96px, calc(100svh - var(--battle-board-size) - 158px), 215px);
+    }
+
+    .game #monster-image {
+      max-height: 100%;
+    }
+
+    .game #battle-back-map {
+      top: 0 !important;
+    }
+
+    .game .write-box {
+      width: var(--battle-board-size);
+      margin-top: 4px;
+    }
+
+    .game .buttons {
+      margin-top: 4px;
+    }
+
+    .game #clear,
+    .game #attack {
+      height: 56px;
+    }
+
+    .game .clear-screen {
+      justify-content: safe center;
+      gap: 8px;
+      padding: 8px;
+      overflow-y: auto;
+    }
+
+    .game .key-reward {
+      gap: 4px;
+      margin-block: 4px;
+    }
+
+    .game .key-reward img {
+      width: 54px;
+    }
+  }
+}
