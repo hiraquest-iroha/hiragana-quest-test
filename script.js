@@ -5543,7 +5543,7 @@ Object.defineProperty(
 /* ========================================
    ちょいむず・むずい カットイン
    通常クエストの対象文字初回登場時のみ
-   え・け：ちょいむず（0.7秒）
+   え・け：ちょいむず（0.85秒）
 ======================================== */
 const difficultyCutinImages = {
   little: "./assets/effects/cutin-little.png",
@@ -5582,7 +5582,7 @@ function showDifficultyCutin() {
   // 再表示時もアニメーションを先頭から開始する
   void layer.offsetWidth;
   layer.classList.add("difficulty-cutin-active");
-  difficultyCutinTimer = setTimeout(stopDifficultyCutin, 700);
+  difficultyCutinTimer = setTimeout(stopDifficultyCutin, 850);
 }
 
 function goToNextLetter() {
